@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="navbar">
-            <ul>
+            <ul class="stripped">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="maven.html">How to do Maven</a></li>
                 <li><a href="about.html">About Me</a></li>
@@ -26,14 +26,14 @@
                     <li>Extract the archive to a directory of your choosing.</li>
                     <li>Modify your PATH environment variable to include <span class="command">&lt;your&gt;/&lt;path&gt;/&lt;to&gt;/apache-maven-3.6.3/bin</span></li>
                 </ol></p>
-            Alternatively, if you're on Windows and use chocolatey you can make this even easier with <span class="command">choco install maven</span>.
+            Alternatively, if you're on Windows and use chocolatey you can make this even easier with <span class="command">choco install maven</span>
             
             <h2>Starting a New Project</h2>
             <p class="note">Note: The first time you do this it might take a second; there's a whole bunch of stuff Maven needs to download (archetypes, dependencies, etc.) that weren't included in the initial download and installation process.</p>
             <h3>On The Command Line</h3>
             <p>
                 <h4>Here's the command:</h4>
-                <blockquote class="command">mvn archetype:generate -DgroupId='com.organization.your.app' -DartifactId=App -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion='1.4' -DinteractiveMode=false</blockquote>
+                <p class="command blk">mvn archetype:generate -DgroupId='com.organization.your.app' <br><span class="args">-DartifactId=learning-app</span><br><span class="args">-DarchetypeArtifactId=maven-archetype-quickstart</span><br><span class="args">-DarchetypeVersion='1.4'</span><br><span class="args">-DinteractiveMode=false</span></p>
                 <p class="note">Important: If you're doing this on Powershell, make sure to include the quotation marks around any value that contains a dot (.). The command will not complete without them.</p>
                 <p></p> 
             </p>
@@ -55,12 +55,14 @@
                 <li><span class="item">'version' 1.0-SNAPSHOT: (-Dversion):</span> The current version of your project.</li>
                 <li><span class="item">'package' &lt;groupId&gt;:</span> If left blank, this will just populate with your groupId. It will establish the directory structure for your project. It doesn't have to be the same as the groupId if you don't want it to be, but it makes it easier.</li>
                 <li><span class="item">-DarchetypeArtifactId:</span>This is the archetype you're generating. There are a number of different archetypes suited for different purposes. For a small, easy project, archetype-quickstart will do</li>
-                <li><span class="item">-DarchetypeVersion:</span> The version of the particular archetype you're generating. Obviously it will vary. for quickstart, it's 1.4</li>
+                <li><span class="item">-DarchetypeVersion:</span> The version of the particular archetype you're generating. Obviously it will vary. For quickstart, it's 1.4</li>
             </ul>
             <p>Maven has now created a directory structure for your project, as specified by the parameters you supplied to the above arguments. You'll see it's parent folder, which bears the name of your artifactId, if you <span class="command">ls</span> in your current directory.
             This is what it looks like:
             </p>
             <img src="resources/mvn-directory-320.png">
+            <p>There are a couple thing to notice here. First, the parent directory of your new project contains a file named "pom.xml". pom stands for Project Object Model. It is the fundamental configuration file for Maven projects, and its existence is what makes a Maven project a Maven project. It contains the information that you entered above, and it contains information about any and all dependencies for your project.</p>
+            <p>The second thing to notice is the <span class="command">src</span> folder that Maven created. Or more specifically, notice the way it forks. Maven creates two branches, one for your projects source files, and one for unit testing. At the end of both of those trees are sample programs that can be altered and adjusted to meet the needs of your project.</p>
         </div>
     </body>
 </html>
