@@ -1,3 +1,9 @@
+.navbar {
+	padding-left: 0px;
+	margin-left: 0px;
+	float: left;
+}
+
 .content {
     font-family: Arial;
     position: relative;
@@ -32,12 +38,6 @@
 
 .stripped {
 	list-style-type: none;
-}
-
-.navbar {
-	padding-left: 0px;
-	margin-left: 0px;
-	float: left;
 }
 
 img {
