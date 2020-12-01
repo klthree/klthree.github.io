@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <script type="text/javascript" src="./scripts.js"></script>
+        <title>How to do Maven</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="maven.html">How to do Maven</a></li>
+                <li><a href="about.html">About Me</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1>Maven</h1>
+            <h2>Intro</h2>
+            <p>As much as I enjoy Java, there are some aspects of plain out-of-the-box Java that I've always found confusing and frustrating. Creating a JAR, managing packages and dependencies, and remembering to set the class path quickly become unwieldy when dealing with anything more than a couple of source files. (And even then I almost never remember to implement those details appropriately enough to successfully compile and run on the first attempt.) Happily, we have Maven. Maven is a build tool developed and maintained by Apache, who describe it as <a href="https://maven.apache.org/plugins/index.html">a plugin execution framework</a>. This means that while it's been designed to take care of all those pesky administrative details that can drive you up a wall, it's also highly extensible, so it's capable of much more than basic build tasks. It's integration with JUnit via the core <em>surefire</em> plugin (included by default) is especially welcome, allowing seamless incorporation of unit testing into the build process.</p>
+            
+            <h2>Installing Maven</h2>
+            <p>Go <a href="https://maven.apache.org/download.cgi">here</a>. If you're on windows, download the Binary zip archive, and if you're on Linux download the Binary tar.gz archive. Then follow the <a href="https://maven.apache.org/install.html">installation instructions</a>, which amount to:
+                <ol>
+                    <li>Extract the archive to a directory of your choosing.</li>
+                    <li>Modify your PATH environment variable to include <span class="command">&lt;your&gt;/&lt;path&gt;/&lt;to&gt;/apache-maven-3.6.3/bin</span></li>
+                </ol></p>
+            Alternatively, if you're on Windows and use chocolatey you can make this even easier with <span class="command">choco install maven</span>.
+            
+            <h2>Starting a New Project</h2>
+            <p class="note">Note: The first time you do this it might take a second; there's a whole bunch of stuff Maven needs to download (archetypes, dependencies, etc.) that weren't included in the initial download and installation process.</p>
+            <h3>On The Command Line</h3>
+            <p>
+                <h4>Here's the command:</h4>
+                <blockquote class="command">mvn archetype:generate -DgroupId='com.organization.your.app' -DartifactId=App -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion='1.4' -DinteractiveMode=false</blockquote>
+                <p class="note">Important: If you're doing this on Powershell, make sure to include the quotation marks around any value that contains a dot (.). The command will not complete without them.</p>
+                <p></p> 
+            </p>
+            <h3>In Visual Studio Code</h3>
+            <p>Proceed through the following. VSC will prompt you the whole way. See below to understand the values it asks for.</p>
+            <p><ol>
+                <li>On the left hand menu bar, there's a submenu titled JAVA PROJECTS. Expand and click the button labeled "Create new Java project." At the top of the screen a selection of project types will be displayed. Select "Maven create from archetype," and then choose the archetype appropriate for your project. Maven will then prompt you in the command line for some information that it needs to create your unique project:</li>
+                <li>Define value for property 'groupId':</li>            
+                <li>Define value for property 'artifactId':</li>
+                <li>Define value for property 'version' 1.0-SNAPSHOT:</li>
+                <li>Define value for property 'package' &lt;groupId&gt;:</li>
+           </ol></p>
+
+        <h3>What All That Means</h3>
+            <p>Whichever option you choose, you should understand the options involved:</p>
+            <ul class="stripped">
+                <li><span class="item">groupId (-DgroupId):</span> Per Maven, the groupId is used to uniquely identify a project, and should follow Java's naming conventions for packages. This is the public facing name of the project that will be used to import it elsewhere. Let's select something generic: 'com.organization.your.app'. This structure allows the creation of subgroups as well, so your project can be further divided as you need.</li>
+                <li><span class="item">artifactId (-DartifactId):</span> This is the name of your jar file. It's the simple name of your project. Version is not included in this part. It comes next</li>
+                <li><span class="item">'version' 1.0-SNAPSHOT: (-Dversion):</span> The current version of your project.</li>
+                <li><span class="item">'package' &lt;groupId&gt;:</span> If left blank, this will just populate with your groupId. It will establish the directory structure for your project. It doesn't have to be the same as the groupId if you don't want it to be, but it makes it easier.</li>
+                <li><span class="item">-DarchetypeArtifactId:</span>This is the archetype you're generating. There are a number of different archetypes suited for different purposes. For a small, easy project, archetype-quickstart will do</li>
+                <li><span class="item">-DarchetypeVersion:</span> The version of the particular archetype you're generating. Obviously it will vary. for quickstart, it's 1.4</li>
+            </ul>
+            <p>Maven has now created a directory structure for your project, as specified by the parameters you supplied to the above arguments. You'll see it's parent folder, which bears the name of your artifactId, if you <span class="command">ls</span> in your current directory.
+            This is what it looks like:
+            </p>
+            <img src="resources/mvn-directory-320.png">
+        </div>
+    </body>
+</html>
