@@ -8,14 +8,15 @@
         <title>How to do Maven</title>
     </head>
     <body>
-        <div class="navbar">
+    <div id="container">
+        <div id="nav">
             <ul class="stripped">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="maven.html">How to do Maven</a></li>
                 <li><a href="about.html">About Me</a></li>
             </ul>
         </div>
-        <div class="content">
+        <div id="content">
             <h1>Maven</h1>
             <h2>Intro</h2>
             <p>As much as I enjoy Java, there are some aspects of plain out-of-the-box Java that I've always found confusing and frustrating. Creating a JAR, managing packages and dependencies, and remembering to set the class path quickly become unwieldy when dealing with anything more than a couple of source files. (And even then I almost never remember to implement those details appropriately enough to successfully compile and run on the first attempt.) Happily, we have Maven. Maven is a build tool developed and maintained by Apache, who describe it as <a href="https://maven.apache.org/plugins/index.html">a plugin execution framework</a>. This means that while it's been designed to take care of all those pesky administrative details that can drive you up a wall, it's also highly extensible, so it's capable of much more than basic build tasks. Its integration with JUnit via the core <em>surefire</em> plugin (included by default) is especially welcome, allowing seamless incorporation of unit testing into the build process.</p>
@@ -64,5 +65,6 @@
             <p>There are a couple thing to notice here. First, the parent directory of your new project contains a file named "pom.xml". pom stands for Project Object Model. It is the fundamental configuration file for Maven projects, and its existence is what makes a Maven project a Maven project. It contains the information that you entered above, and it contains information about any and all dependencies for your project.</p>
             <p>The second thing to notice is the <span class="command">src</span> folder that Maven created. Or more specifically, notice the way it forks. Maven creates two branches, one for your projects source files, and one for unit testing. At the end of both of those trees are sample programs that can be altered and adjusted to meet the needs of your project.</p>
         </div>
+    </div>
     </body>
 </html>

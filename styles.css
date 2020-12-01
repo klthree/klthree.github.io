@@ -1,26 +1,25 @@
-body {
+#container {
 	display: flex;
-	flex-direction: column;
-	min-width: 0;
+	flex-direction: row;
+	/*flex-wrap: wrap;*/
 }
 
-.navbar {
-	min-width: 0;
-	padding-left: 0px;
-	margin-left: 0px;
-	flex: 1 2 auto;
-	/*float: left;*/
+#nav {
+	text-align: left;
+/*	border-style: solid;
+	border-color: green;
+*/	
 }
 
-.content {
-	min-width: 0;
-	flex: 4 1 auto;
+#content {
+	flex: 1;
+/*	border-style: solid;
+	border-color: red;*/
     font-family: Arial;
-    /*position: relative;*/
     padding-right: 20px;
     padding-left: 20px;
-    margin-left: 200px;
-    margin-right: 120px;
+    /*margin-left: 100px;*/
+    /*margin-right: 80px;*/
 }
 
 .argument {
@@ -46,16 +45,15 @@ body {
 	font-weight: bolder;
 }
 
-.stripped {
+.reglist {
+	display: block;
 	list-style-type: none;
+	margin: 0;
+	padding-left: 15px;
+	padding-bottom: 10px;
+	text-indent: -2em;
 }
 
 img {
 	display: block;
-}
-
-li {
-	padding-left: 15px;
-	padding-bottom: 10px;
-	text-indent: -2em;
 }
