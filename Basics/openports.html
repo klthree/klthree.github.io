@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="../styles.css">
+        <script type="text/javascript" src="./scripts.js"></script>
+        <title>How to View Open Ports</title>
+    </head>
+    <body>
+    <div id="container">
+        <div id="nav">
+            <ul class="reglists">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="./guide.html">The Basics</a></li>
+                <li><a href="../about.html">About Me</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <h1>Ports</h1>
+            <h2>Intro</h2>
+            <p>
+                <a href="https://www.en.wikipedia.org/wiki/Port_(computer_networking)">Ports</a> in networking are an addressing 
+                concept that allows computers to send data received over the network to appropriate applications. They take the form
+                of a number between 0 and 65535, and when combined with an ip address and transport-layer protocol, they allow one
+                host on a network to accurately send data to a specific application on a specific computer elsewhere on the network. 
+                The first 1024 ports are considered <em>well known</em> ports and have been officially associated with protocols designed
+                for specific services. Common examples are port 80 for http (web browsers direct their requests to this port on a web
+                server) or 22 for ssh (an ssh client would target this port to establish a connection and send data).
+            </p>
+            <p>
+                If this is going to work, those servers need to be ready to receive communication on those ports. i.e., the networking
+                part of their operating systems should be waiting for any packets addressed to ports 80 or 443, which it will then forward to
+                the web server application (and the network's router needs to let those packets through). These well known ports are typically
+                used by servers, not clients. If my browser requests a web page, it addresses port 80 on the server, but it takes a 
+                random port for its own address. This separation allows us to open multiple tabs in one browser, or multiple browsers with
+                multiple tabs, and ensure that each tab gets the correct data. So at any given time, your computer is probably addressing
+                a handful of well known ports, but unless you're running a server, it's probably listening on a bunch of random, high-numbered
+                ports.
+            </p>
+            <p>
+                So ports essentially help your computer route data segments to the proper applications, ensuring your spotify
+                app doesn't get your webpage, and your web browser doesn't get your music stream. That's not particularly dangerous; someone
+                can't just find an open port and treat it like a secret entrance to your computer. However, if a well known port is open on a
+                computer, that generally means an application is ready to communicate with anyone who reaches out. And that means that it's
+                a source of information and possibly exploitation. If you have a version of a web server running with a known vulnerability,
+                someone could get that information and then try to find a way to exploit the vulnerability on that web server.
+            </p>
+            <p>
+                Most of that probably isn't a concern for the average person. But if you happen to be curious and want to 
+                view the connections that your computer is establishing with other computers out there in the world, and see what
+                ports it's communicating on, the commands below should do the trick.
+            </p>
+            <h2>Linux (Bash)</Bash></h2>
+            <h3>ss</h3>
+                <p><span class="item">ss</span> is included in Linux as part of <span class="item">iproute2</span>, the default
+                networking tools. It's usage is similar to the familiar <span class="item">netstat</span> (discussed below).
+                Here's the command:
+                </p>
+                <p class="command blk">ss -[l]ntup</p>
+                <p>This command shows established connections. Because of this, the <span class="item">-p</span> provides the
+                process name and id that established the connection. The <span class="item">-l</span> option shows
+                only sockets that are listening, i.e. the port is open to connections, but no connection has been made. 
+                <span class="item">-p</span> won't show anything in the latter case because no application has established a connection.
+                </p>
+            <h3>netstat</h3>
+            <p>
+                If you go and google about this for a bit, you'll find plenty of recommendations for a popular but dated
+                command called <span class="item">netstat</span>. And <span class="item">netstat</span> will certainly get the job
+                done, but it - and <span class="item">net-tools</span>, the package it's a part of - has been deprecated in favor
+                of <span class="item">ss</span> and <span class="item">iproute2</span>. Not only is
+                <span class="item">net-tools</span> no longer maintained, it's not even available
+                out-of-the-box in most Linux distributions, while <span class="item">iproute2</span> is. So we'll take a look
+                at <span class="item">netstat</span>, but there's no reason to use it at this point.
+            </p>
+            <p><a href="https://man7.org/linux/man-pages/man8/netstat.8.html">netstat</a> will show you "network connections, routing tables,
+            interface statistics," and more. To view current connections and the open ports associated with them, use the following command:
+            </p>
+            <p class="command blk">netstat -plntu</p>
+            <p><ul>
+                <li><span class="item">-p</span> Program name and process id (PID) associated with the socket.</li>
+                <li><span class="item">-l</span> Only listening sockets.</li>
+                <li><span class="item">-n</span> Shows port numbers instead of protocol or host names. Faster.</li>
+                <li><span class="item">-t</span> Shows TCP connections</li>
+                <li><span class="item">-u</span> Shows UDP connections</li>
+            </ul></p>
+            <h2>Windows (Powershell)</h2>
+            <p>Like most things in Powershell, there's a long command that, when you see it, makes perfect sense:
+                <p class="command blk">Get-NetTCPConnection -State Listen</p>
+                <p class="command blk">Get-NetUDPEndpoint -LocalAddress &lt;your-ip-address&gt;</p>
+                <p>The first command returns all TCP sockets that are currently listening. Without the -State option,
+                    the command will return all current TCP sockets and their states. There doesn't seem to be any
+                    easy option to show the names of all processes associated with a socket, but 
+                    <a href="https://stackoverflow.com/a/57011432"> this answer</a> provides a fine solution:
+                </p>
+                <p class="command blk">Get-NetTCPConnection | select-Object LocalAddress, LocalPort,RemoteAddress,RemotePort,State , OwningProcess  , @{l="Name" ;e= {Get-Process -Id $_.OwningProcess | select -ExpandProperty Name } } | Format-Table</p>
+                <p>The second command above shows all UDP sockets that are open to information. Since UDP is a connectionless
+                    protocol, there are no connection statuses listed as in the TCP listing.
+                </p>
+                <h3>netstat</h3>
+                <p>Windows also supports <span class="item">netstat</span>. I can't tell if it's deprecated. It's clearly quite
+                old, but still gets the job done. It takes a slightly different form in Windows:</p>
+                <p class="command blk">netstat -oanb</p>
+                <p><ul>
+                    <li><span class="item">-o</span> Shows PID of owning process.</li>
+                    <li><span class="item">-a</span> Shows all connections and listening ports.</li>
+                    <li><span class="item">-n</span> Speeds things up by printing numbers instead of resolving protocol names</li>
+                    <li><span class="item">-b</span> Shows name of executable associated with the port.</li>
+                </ul></p>
+                <p>The output from the above command can be a little much. Use the Powershell command Select-String (sls)
+                    to narrow things down:
+                </p>
+                <p class="command blk">netstat -oanb | sls "LISTENING|UDP"</p>
+                <p>This command returns all UDP ports or TCP ports in the "LISTENING" state.</p>
+            </p>
+        </div>
+    </div>
+    </body>
+</html>
